@@ -7,6 +7,16 @@ import SimpleStack from '../objects/SimpleStack'
 import { getRoute } from '../library/getRoute'
 import { getContext } from '../library/getContext'
 
+function injectStyles() {
+	return {__html: "<style>" +
+			".example-enter { transform: translate3d(100%, 0, 0); }"+
+			".example-enter.example-enter-active { transform: translate3d(0, 0, 0); transition: all 600ms; }"+
+			".example-leave { transform: translate3d(100%, 0, 0); transition: all 600ms; }"+
+			".example-leave.example-leave-active { transform: translate3d(100%, 0, 0);  }"+
+			"</style>"
+	}
+}
+
 class SimpleStackNavigator extends Component {
 
 	constructor(props){
@@ -15,20 +25,33 @@ class SimpleStackNavigator extends Component {
 		this.simpleStackNavigation = new SimpleStack(this.props.dispatch)
 	}
 
+
 	render() {
-		const { route } = this.props
-		const Template = route.component
-		const TemplateWithContext = getContext(SimpleStackProvider.childContextTypes)(Template)
+		const { stack, screens, routeConfig } = this.props
+		const items = stack.map((routeName,key)=>{
+			const route = getRoute(routeName,routeConfig)
+			const Template = route.component
+			const TemplateWithContext = getContext(SimpleStackProvider.childContextTypes)(Template)
+			return (
+				<div style={{ backgroundColor: '#fff', position: 'absolute', top: '50px', bottom: '0', left: '0', right:'0' }} key={key}>
+					<TemplateWithContext {...route.props}  />
+				</div>
+			)
+		})
 
 		return (
-			<SimpleStackProvider simpleStackNavigation={this.simpleStackNavigation} >
-				<CSSTransitionGroup
-					transitionName="example"
-					transitionEnterTimeout={500}
-					transitionLeaveTimeout={300}>
-					<TemplateWithContext {...route.props} />
-				</CSSTransitionGroup>
-			</SimpleStackProvider>
+			<div>
+				<div dangerouslySetInnerHTML={injectStyles()} />
+				<SimpleStackProvider simpleStackNavigation={this.simpleStackNavigation} >
+
+					<CSSTransitionGroup
+						transitionName="example"
+						transitionEnterTimeout={500}
+						transitionLeaveTimeout={500}>
+						{ items }
+					</CSSTransitionGroup>
+				</SimpleStackProvider>
+			</div>
 		)
 	}
 }
@@ -37,7 +60,9 @@ const mapStateToProps = ({ simpleStack }, { routeConfig }) => {
 	const key = simpleStack[simpleStack.length - 1]
 		console.log(simpleStack)
 	return {
-		route: getRoute(key,routeConfig)
+		stack: simpleStack,
+		screens: [simpleStack[simpleStack.length - 1]],
+		routeConfig: routeConfig
 	}
 }
 

@@ -25,7 +25,7 @@ const pushView = (state, action) => {
 }
 
 const popView = (state, action) => {
-	return state.slice(0, state.length)
+	return state.slice(0, state.length-1)
 }
 
 const resetStack = (state, action) => {
