@@ -1,21 +1,29 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 
+import SimpleStackProvider from './SimpleStackProvider'
+import SimpleStack from '../objects/SimpleStack'
 import { getRoute } from '../library/getRoute'
-import { navigate } from '../actions/SimpleStackNavigatorActions'
-
+import { getContext } from '../library/getContext'
 
 class SimpleStackNavigator extends Component {
 
-	constructor(){
-		super()
+	constructor(props){
+		super(props)
+
+		this.simpleStackNavigation = new SimpleStack(this.props.dispatch)
 	}
 
 	render() {
 		const { route } = this.props
 		const Template = route.component
+		const TemplateWithContext = getContext(SimpleStackProvider.childContextTypes)(Template)
 
-		return <Template {...this.props} {...route.props} context='simple-stack-navigator' />
+		return (
+			<SimpleStackProvider simpleStackNavigation={this.simpleStackNavigation} >
+				<TemplateWithContext {...route.props} />
+			</SimpleStackProvider>
+		)
 	}
 }
 
@@ -29,7 +37,7 @@ const mapStateToProps = ({ simpleStack }, { routeConfig }) => {
 
 const mapDispatchToProps = (dispatch) => {
 	return {
-		navigate: (routeName) => dispatch(navigate(routeName))
+		dispatch
 	}
 }
 
