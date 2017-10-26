@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
+import { CSSTransitionGroup } from 'react-transition-group'
 
 import SimpleStackProvider from './SimpleStackProvider'
 import SimpleStack from '../objects/SimpleStack'
@@ -21,7 +22,12 @@ class SimpleStackNavigator extends Component {
 
 		return (
 			<SimpleStackProvider simpleStackNavigation={this.simpleStackNavigation} >
-				<TemplateWithContext {...route.props} />
+				<CSSTransitionGroup
+					transitionName="example"
+					transitionEnterTimeout={500}
+					transitionLeaveTimeout={300}>
+					<TemplateWithContext {...route.props} />
+				</CSSTransitionGroup>
 			</SimpleStackProvider>
 		)
 	}
