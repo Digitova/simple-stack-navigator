@@ -11,21 +11,17 @@ class SimpleStackNavigator extends Component {
 		super()
 	}
 
-	componentWillMount() {
-		this.props.navigate(this.props.routeConfig.defaultRoute)
-	}
-
 	render() {
 		const { route } = this.props
 		const Template = route.component
 
-		return <Template {...this.props} {...route.props} />
+		return <Template {...this.props} {...route.props} context='simple-stack-navigator' />
 	}
 }
 
 const mapStateToProps = ({ simpleStack }, { routeConfig }) => {
 	const key = simpleStack[simpleStack.length - 1]
-
+		console.log(simpleStack)
 	return {
 		route: getRoute(key,routeConfig)
 	}
