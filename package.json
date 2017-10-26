@@ -1,0 +1,9 @@
+{
+  "name": "simple-stack-navigator",
+  "private": true,
+  "description": "Simple React Stack Navigator",
+  "version": "0.0.1",
+  "author": "Christopher Rathgeb <crathgeb@digitova.com>",
+  "main": "src/index.js",
+  "license": "MIT"
+}
