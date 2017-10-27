@@ -5,7 +5,7 @@ import { CSSTransitionGroup } from 'react-transition-group'
 import SimpleStackProvider from './SimpleStackProvider'
 import SimpleStack from '../objects/SimpleStack'
 import { getRoute } from '../library/getRoute'
-import { getContext } from '../library/getContext'
+import { connectSimple } from '../library/connectSimple'
 
 function injectStyles() {
 	return {__html: "<style>" +
@@ -31,7 +31,7 @@ class SimpleStackNavigator extends Component {
 		const items = stack.map((routeName,key)=>{
 			const route = getRoute(routeName,routeConfig)
 			const Template = route.component
-			const TemplateWithContext = getContext(SimpleStackProvider.childContextTypes)(Template)
+			const TemplateWithContext = connectSimple(Template)
 			return (
 				<div style={{ backgroundColor: '#fff', position: 'absolute', top: '50px', bottom: '0', left: '0', right:'0' }} key={key}>
 					<TemplateWithContext {...route.props}  />
