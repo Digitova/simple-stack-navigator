@@ -20,7 +20,10 @@ export const simpleStack = (state = initialState, action) => {
 const pushView = (state, action) => {
 	return [
 		...state,
-		action.routeName
+		{
+			routeName: action.routeName,
+			props: action.props
+		}
 	]
 }
 

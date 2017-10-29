@@ -28,13 +28,14 @@ class SimpleStackNavigator extends Component {
 
 	render() {
 		const { stack, screens, routeConfig } = this.props
-		const items = stack.map((routeName,key)=>{
-			const route = getRoute(routeName,routeConfig)
+		const items = stack.map((screen,key)=>{
+			const route = getRoute(screen.routeName,routeConfig)
+			const screenProps = screen.props
 			const Template = route.component
 			const TemplateWithContext = connectSimple(Template)
 			return (
 				<div style={{ backgroundColor: '#fff', position: 'absolute', top: '50px', bottom: '0', left: '0', right:'0' }} key={key}>
-					<TemplateWithContext {...route.props}  />
+					<TemplateWithContext {...route.props} {...screenProps} />
 				</div>
 			)
 		})

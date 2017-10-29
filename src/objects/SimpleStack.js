@@ -8,11 +8,11 @@ export default function SimpleStack(dispatch){
 		this.dispatch(actions.goBack())
 	}
 
-	this.navigate = (routeName) => {
-		this.dispatch(actions.navigate(routeName,true))
+	this.navigate = (routeName,props={}) => {
+		this.dispatch(actions.navigate(routeName,props,true))
 	}
 
-	this.reset = (routeName) => {
-		this.dispatch(actions.resetStack(routeName))
+	this.reset = (routeName,props={}) => {
+		this.dispatch(actions.resetStack(routeName,props))
 	}
 }
