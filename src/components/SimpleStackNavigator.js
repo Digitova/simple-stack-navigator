@@ -5,7 +5,7 @@ import { CSSTransitionGroup } from 'react-transition-group'
 import SimpleStackProvider from './SimpleStackProvider'
 import SimpleStack from '../objects/SimpleStack'
 import { getRoute } from '../library/getRoute'
-import { connectSimple } from '../library/connectSimple'
+import getSimpleStackTemplate from '../library/getSimpleStackTemplate'
 
 function injectStyles() {
 	return {__html: "<style>" +
@@ -23,19 +23,27 @@ class SimpleStackNavigator extends Component {
 		super(props)
 
 		this.simpleStackNavigation = new SimpleStack(this.props.dispatch)
+
+		this.routeLibrary = props.routeConfig.routes.map((route,key) => {
+			return {
+				routeName: route.routeName,
+				component: getSimpleStackTemplate(route.component),
+				props: route.props
+			}
+		})
 	}
 
-
 	render() {
-		const { stack, screens, routeConfig } = this.props
-		const items = stack.map((screen,key)=>{
-			const route = getRoute(screen.routeName,routeConfig)
+		const { simpleStack } = this.props
+
+		const items = simpleStack.map((screen,key)=>{
+			const route = getRoute(screen.routeName,{ routes: this.routeLibrary } )
 			const screenProps = screen.props
 			const Template = route.component
-			const TemplateWithContext = connectSimple(Template)
+
 			return (
 				<div style={{ backgroundColor: '#fff', position: 'absolute', top: '50px', bottom: '0', left: '0', right:'0' }} key={key}>
-					<TemplateWithContext {...route.props} {...screenProps} />
+					<Template {...screenProps} {...route.props} />
 				</div>
 			)
 		})
@@ -44,7 +52,6 @@ class SimpleStackNavigator extends Component {
 			<div>
 				<div dangerouslySetInnerHTML={injectStyles()} />
 				<SimpleStackProvider simpleStackNavigation={this.simpleStackNavigation} >
-
 					<CSSTransitionGroup
 						transitionName="example"
 						transitionEnterTimeout={500}
@@ -58,12 +65,9 @@ class SimpleStackNavigator extends Component {
 }
 
 const mapStateToProps = ({ simpleStack }, { routeConfig }) => {
-	const key = simpleStack[simpleStack.length - 1]
-		console.log(simpleStack)
 	return {
-		stack: simpleStack,
-		screens: [simpleStack[simpleStack.length - 1]],
-		routeConfig: routeConfig
+		simpleStack,
+		routeConfig
 	}
 }
 
