@@ -12,6 +12,8 @@ export const simpleStack = (state = initialState, action) => {
 			return resetStack(state,action)
 		case types.SIMPLE_STACK_EMPTY_STACK:
 			return emptyStack(state,action)
+		case types.SIMPLE_STACK_WIPE_BACK_STACK:
+			return wipeBackStack(state,action)
 		default:
 			return state
 	}
@@ -38,4 +40,8 @@ const resetStack = (state, action) => {
 
 const emptyStack = (state, action) => {
 	return []
+}
+
+const wipeBackStack = (state, action) => {
+	return state.slice(state.length-1, state.length)
 }

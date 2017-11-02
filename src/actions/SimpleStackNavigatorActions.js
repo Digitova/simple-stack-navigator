@@ -2,6 +2,7 @@ export const SIMPLE_STACK_PUSH_VIEW = 'SIMPLE_STACK_PUSH_VIEW'
 export const SIMPLE_STACK_POP_VIEW = 'SIMPLE_STACK_POP_VIEW'
 export const SIMPLE_STACK_RESET_STACK = 'SIMPLE_STACK_RESET_STACK'
 export const SIMPLE_STACK_EMPTY_STACK = 'SIMPLE_STACK_EMPTY_STACK'
+export const SIMPLE_STACK_WIPE_BACK_STACK = 'SIMPLE_STACK_WIPE_BACK_STACK'
 
 export function navigate(routeName, props = {}, simpleStackCall = false){
 	return dispatch => {
@@ -44,5 +45,11 @@ export function resetStack(routeName,props = {}){
 export function emptyStack(){
 	return {
 		type: SIMPLE_STACK_EMPTY_STACK,
+	}
+}
+
+export function wipeBackStack(){
+	return {
+		type: SIMPLE_STACK_WIPE_BACK_STACK,
 	}
 }
