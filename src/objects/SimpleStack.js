@@ -15,4 +15,8 @@ export default function SimpleStack(dispatch){
 	this.reset = (routeName,props={}) => {
 		this.dispatch(actions.resetStack(routeName,props))
 	}
+
+	this.wipeBackStack = () => {
+		this.dispatch(actions.wipeBackStack())
+	}
 }
