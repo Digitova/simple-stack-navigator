@@ -4,8 +4,8 @@ import * as actions from '../actions/SimpleStackNavigatorActions'
 export default function SimpleStack(dispatch){
 	this.dispatch = dispatch
 
-	this.goBack = () => {
-		this.dispatch(actions.goBack())
+	this.goBack = (props) => {
+		this.dispatch(actions.goBack(props))
 	}
 
 	this.navigate = (routeName,props={}) => {
