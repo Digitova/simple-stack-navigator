@@ -9,7 +9,6 @@ const getSimpleStackTemplate = ( Template ) => {
 		}
 
 		render() {
-			console.log(this.props)
 			return <Template
 				{ ...this.props }
 				simpleStackNavigation={this.context.simpleStackNavigation}
